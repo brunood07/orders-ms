@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: 'orders-ms'
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/orders-db?user=admin&password=admin&createDatabaseIfNotExist=true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        globally_quoted_identifiers: 'true'
+        format_sql: 'true'
+    show-sql: 'false'
+    database-platform: 'org.hibernate.dialect.PostgreSQLDialect'
+    hibernate:
+      ddl-auto: none
+
+server:
+  port: 8080
+  address: 0.0.0.0

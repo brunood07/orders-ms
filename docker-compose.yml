@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: orders_db
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=orders-db
+    networks:
+      - spring-cloud-network
+
+  rabbitmq:
+    image: rabbitmq:3.10-management
+    container_name: ecomm-rabbit-mq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./dados:/var/lib/rabbitmq/
+    environment:
+      - RABBITMQ_DEFAULT_USER=ecomm-user
+      - RABBITMQ_DEFAULT_PASS=start-password
+    networks:
+      - spring-cloud-network
+
+  app:
+    container_name: orders-ms
+    image: orders-app
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-cloud-network
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/orders-db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin
+
+networks:
+  spring-cloud-network:
+    driver: bridge
