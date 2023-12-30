@@ -59,7 +59,7 @@ create table ecomm_orders.tb_order_payment_info(
     id_order_payment_info serial primary key,
     order_id bigint not null,
     id_payment bigint not null,
-    payment_type varchar(10) not null,
+    payment_type varchar(10),
     payment_status varchar(20) default 'pending',
     card_number varchar(50),
     card_cvv varchar(4),

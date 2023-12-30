@@ -38,6 +38,8 @@ public class OrderPaymentInfo {
     @Column(name = "card_name")
     private String cardName;
 
+    private int installments;
+
     @Column(name = "card_expiration_date")
     private String cardExpirationDate;
 
