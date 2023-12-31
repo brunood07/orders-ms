@@ -4,7 +4,7 @@ import br.com.brunood.orders.dtos.CreateOrderUseCaseRequestDTO;
 import br.com.brunood.orders.usecases.CreateOrderUseCase;
 import br.com.brunood.orders.usecases.FindOrdersByClientIdUseCase;
 import br.com.brunood.orders.usecases.GetOrderByOrderIdUseCase;
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class OrdersController {
     private FindOrdersByClientIdUseCase findOrdersByClientIdUseCase;
 
     @PostMapping
-    public ResponseEntity<Object> createOrder(@RequestBody CreateOrderUseCaseRequestDTO data, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<Object> createOrder(@Valid @RequestBody CreateOrderUseCaseRequestDTO data, UriComponentsBuilder uriBuilder) {
         try {
             var order = this.createOrderUseCase.execute(data);
             var uri = uriBuilder.path("/api/v1/orders/{id}").buildAndExpand(order.getOrder().getOrderId()).toUri();

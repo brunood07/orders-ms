@@ -1,6 +1,7 @@
 package br.com.brunood.orders.dtos;
 
 
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.util.List;
@@ -12,9 +13,14 @@ import java.util.List;
 @EqualsAndHashCode
 public class CreateOrderUseCaseRequestDTO {
 
+    @Valid
     CreateOrderDTO order;
+    @Valid
     CreateOrderPaymentInfoDTO paymentInfo;
+    @Valid
     List<CreateOrderProductDTO> products;
+    @Valid
     CreatePriceInfoDTO priceInfo;
+    @Valid
     CreateOrderAddressDTO addressInfo;
 }

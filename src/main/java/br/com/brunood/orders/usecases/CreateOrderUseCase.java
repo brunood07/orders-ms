@@ -7,13 +7,11 @@ import br.com.brunood.orders.enums.OrderStatus;
 import br.com.brunood.orders.enums.PaymentStatus;
 import br.com.brunood.orders.enums.PaymentType;
 import br.com.brunood.orders.exceptions.EmptyBodyException;
-import br.com.brunood.orders.exceptions.PriceInfoException;
 import br.com.brunood.orders.repositories.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +32,7 @@ public class CreateOrderUseCase {
 
     public CreateOrderUseCaseResponseDTO execute(CreateOrderUseCaseRequestDTO data) {
         if (ObjectUtils.isEmpty(data)) throw new EmptyBodyException();
-        if (data.getPaymentInfo().getPaymentType().isEmpty()) throw new EmptyBodyException();
         if (data.getPaymentInfo().getPaymentType().equals(PaymentType.CREDIT_CARD.getValue()) && ObjectUtils.isEmpty(data.getPaymentInfo().getCardInfo())) throw new EmptyBodyException();
-        if (ObjectUtils.isEmpty(data.getPriceInfo())) throw new EmptyBodyException();
-        if (data.getPriceInfo().getSubTotal() == null || data.getPriceInfo().getSubTotal().equals(BigDecimal.ZERO)) throw new PriceInfoException();
-        if (data.getProducts() == null || data.getProducts().isEmpty()) throw new EmptyBodyException();
-        if (ObjectUtils.isEmpty(data.getAddressInfo())) throw new EmptyBodyException();
 
         var orderToCreate = Orders.builder()
                 .clientId(data.getOrder().getClientId())

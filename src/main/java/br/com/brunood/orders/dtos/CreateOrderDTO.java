@@ -1,5 +1,6 @@
 package br.com.brunood.orders.dtos;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Data
@@ -9,5 +10,6 @@ import lombok.*;
 @EqualsAndHashCode
 public class CreateOrderDTO {
 
+    @NotNull(message = "client id missing")
     private Long clientId;
 }
