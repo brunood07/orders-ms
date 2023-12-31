@@ -76,6 +76,15 @@
 	</dependencies>
 
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>0.8.8</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -86,6 +95,36 @@
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+
+				<configuration>
+					<excludes>
+						<exclude>br/com/brunood/orders/configurations/**</exclude>
+						<exclude>br/com/brunood/orders/dtos/**</exclude>
+						<exclude>br/com/brunood/orders/entities/**</exclude>
+						<exclude>br/com/brunood/orders/enums/**</exclude>
+						<exclude>br/com/brunood/orders/exceptions/**</exclude>
+						<exclude>br/com/brunood/orders/repositories/**</exclude>
+						<exclude>br/com/brunood/orders/OrdersApiApplication.class</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
