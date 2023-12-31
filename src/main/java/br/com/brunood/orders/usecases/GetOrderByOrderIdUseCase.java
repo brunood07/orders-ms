@@ -22,6 +22,9 @@ public class GetOrderByOrderIdUseCase {
     public GetOrderByOrderIdUseCaseDTO execute(Long orderId) {
 
         var order = this.ordersRepository.findById(orderId).orElse(null);
+
+        if (order == null) return null;
+
         var address = this.orderAddressRepository.findByOrderId(orderId).orElse(null);
         var priceInfo = this.priceInfoRepository.findByOrderId(orderId).orElse(null);
         var paymentInfo = this.orderPaymentInfoRepository.findByOrderId(orderId).orElse(null);
