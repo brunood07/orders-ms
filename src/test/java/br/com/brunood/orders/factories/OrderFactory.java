@@ -6,6 +6,8 @@ import br.com.brunood.orders.enums.OrderStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class OrderFactory {
@@ -25,5 +27,27 @@ public class OrderFactory {
         return CreateOrderDTO.builder()
                 .clientId(1L)
                 .build();
+    }
+
+    public static List<Orders> listOfOrders() {
+        List<Orders> orders = new ArrayList<>();
+
+        orders.add(Orders.builder()
+                .clientId(1L)
+                .createdAt(LocalDateTime.now())
+                .orderId(1L)
+                .status(OrderStatus.CREATED.getValue())
+                .updatedAt(LocalDateTime.now())
+                .build());
+
+        orders.add(Orders.builder()
+                .clientId(1L)
+                .createdAt(LocalDateTime.now())
+                .orderId(2L)
+                .status(OrderStatus.CREATED.getValue())
+                .updatedAt(LocalDateTime.now())
+                .build());
+
+        return orders;
     }
 }
