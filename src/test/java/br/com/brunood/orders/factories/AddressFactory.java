@@ -13,7 +13,7 @@ public class AddressFactory {
                 .city("City Test")
                 .complement(null)
                 .idOrderAddress(1L)
-                .neighboorhood("Neighboorhood Test")
+                .neighborhood("Neighboorhood Test")
                 .number("13")
                 .orderId(1L)
                 .postalCode("12345678")

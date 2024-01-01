@@ -2,6 +2,7 @@ package br.com.brunood.orders.usecases;
 
 import br.com.brunood.orders.dtos.CreateOrderUseCaseRequestDTO;
 import br.com.brunood.orders.dtos.CreateOrderUseCaseResponseDTO;
+import br.com.brunood.orders.dtos.producer.CreatePaymentDTO;
 import br.com.brunood.orders.entities.*;
 import br.com.brunood.orders.enums.OrderStatus;
 import br.com.brunood.orders.enums.PaymentStatus;
@@ -9,6 +10,7 @@ import br.com.brunood.orders.enums.PaymentType;
 import br.com.brunood.orders.exceptions.EmptyBodyException;
 import br.com.brunood.orders.repositories.*;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,8 @@ public class CreateOrderUseCase {
     private OrderProductsRepository orderProductsRepository;
     @Autowired
     private OrderAddressRepository orderAddressRepository;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public CreateOrderUseCaseResponseDTO execute(CreateOrderUseCaseRequestDTO data) {
         if (ObjectUtils.isEmpty(data)) throw new EmptyBodyException();
@@ -45,10 +49,6 @@ public class CreateOrderUseCase {
         var orderId = order.getOrderId();
 
         var currentPaymentInfo = OrderPaymentInfo.builder()
-                .cardCvv(data.getPaymentInfo().getCardInfo().getCardCvv())
-                .cardExpirationDate(data.getPaymentInfo().getCardInfo().getCardExpirationDate())
-                .cardName(data.getPaymentInfo().getCardInfo().getCardName())
-                .cardNumber(data.getPaymentInfo().getCardInfo().getCardNumber())
                 .clientDocument(data.getPaymentInfo().getClientDocument())
                 .installments(data.getPaymentInfo().getInstallments())
                 .orderId(orderId)
@@ -81,7 +81,7 @@ public class CreateOrderUseCase {
         var orderAddress = OrderAddress.builder()
                 .city(data.getAddressInfo().getCity())
                 .complement(data.getAddressInfo().getComplement())
-                .neighboorhood(data.getAddressInfo().getNeighboorhood())
+                .neighborhood(data.getAddressInfo().getNeighboorhood())
                 .number(data.getAddressInfo().getNumber())
                 .orderId(orderId)
                 .postalCode(data.getAddressInfo().getPostalCode())
@@ -90,6 +90,17 @@ public class CreateOrderUseCase {
                 .build();
 
         var address = this.orderAddressRepository.save(orderAddress);
+
+        var message = CreatePaymentDTO.builder()
+                .cardInfo(data.getPaymentInfo().getCardInfo())
+                .clientDocument(data.getPaymentInfo().getClientDocument())
+                .installments(data.getPaymentInfo().getInstallments())
+                .orderId(orderId)
+                .paymentType(data.getPaymentInfo().getPaymentType())
+                .value(total)
+                .build();
+
+        rabbitTemplate.convertAndSend("payment.created", message);
 
         return CreateOrderUseCaseResponseDTO.builder()
                 .address(address)

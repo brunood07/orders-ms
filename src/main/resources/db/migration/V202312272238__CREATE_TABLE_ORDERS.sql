@@ -58,13 +58,9 @@ grant select,insert,update,delete on table ecomm_orders.tb_order_address to admi
 create table ecomm_orders.tb_order_payment_info(
     id_order_payment_info serial primary key,
     order_id bigint not null,
-    id_payment bigint not null,
+    id_payment bigint,
     payment_type varchar(10),
     payment_status varchar(20) default 'pending',
-    card_number varchar(50),
-    card_cvv varchar(4),
-    card_name varchar(100),
-    card_expiration_date varchar(20),
     installments integer,
     client_document varchar(20) not null
 );

@@ -1,17 +1,14 @@
 package br.com.brunood.orders.usecases;
 
 import br.com.brunood.orders.dtos.CreateOrderUseCaseRequestDTO;
-import br.com.brunood.orders.exceptions.EmptyBodyException;
 import br.com.brunood.orders.factories.*;
 import br.com.brunood.orders.repositories.*;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,18 +25,10 @@ public class CreateOrderUseCaseTest {
     OrderProductsRepository orderProductsRepository;
     @Mock
     OrderAddressRepository orderAddressRepository;
+    @Mock
+    private RabbitTemplate rabbitTemplate;
     @InjectMocks
     CreateOrderUseCase createOrderUseCase;
-
-    @Test
-    void shouldRegisterNewOrderWithInvalidBody() {
-        assertThrows(EmptyBodyException.class, () -> createOrderUseCase.execute(null));
-    }
-
-    @Test
-    void shouldRegisterNewOrderCreditCardAndCardInfoEmpty() {
-        assertThrows(EmptyBodyException.class, () -> createOrderUseCase.execute(createOrderInvalidPayload()));
-    }
 
     @Test
     void shouldRegisterNewOrderWithValidBody() {

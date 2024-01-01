@@ -1,6 +1,11 @@
 spring:
   application:
     name: 'orders-ms'
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: 'ecomm-user'
+    password: 'start-password'
   flyway:
     enabled: true
   datasource:
@@ -11,6 +16,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         globally_quoted_identifiers: 'true'
         format_sql: 'true'
+        default_schema: ecomm_orders
     show-sql: 'false'
     database-platform: 'org.hibernate.dialect.PostgreSQLDialect'
     hibernate:

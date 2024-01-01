@@ -13,10 +13,6 @@ public class PaymentInfoFactory {
     public static OrderPaymentInfo createPaymentInfoWithCreditCard() {
 
         return OrderPaymentInfo.builder()
-                .cardCvv("123")
-                .cardExpirationDate("11/30")
-                .cardName("Test Name")
-                .cardNumber("123456789")
                 .clientDocument("11111111111")
                 .idOrderPaymentInfo(1L)
                 .idPayment(1L)

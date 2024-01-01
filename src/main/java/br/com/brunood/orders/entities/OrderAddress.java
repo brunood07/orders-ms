@@ -28,7 +28,7 @@ public class OrderAddress {
 
     private String state;
 
-    private String neighboorhood;
+    private String neighborhood;
 
     private String complement;
 
