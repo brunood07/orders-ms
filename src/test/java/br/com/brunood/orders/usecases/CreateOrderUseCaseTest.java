@@ -3,6 +3,7 @@ package br.com.brunood.orders.usecases;
 import br.com.brunood.orders.dtos.CreateOrderUseCaseRequestDTO;
 import br.com.brunood.orders.factories.*;
 import br.com.brunood.orders.repositories.*;
+import br.com.brunood.orders.usecases.clients.PaymentsMsClient;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -18,7 +19,7 @@ public class CreateOrderUseCaseTest {
     @Mock
     OrdersRepository ordersRepository;
     @Mock
-    OrderPaymentInfoRepository orderPaymentInfoRepository;
+    PaymentsMsClient paymentsMsClient;
     @Mock
     PriceInfoRepository priceInfoRepository;
     @Mock
@@ -32,16 +33,14 @@ public class CreateOrderUseCaseTest {
 
     @Test
     void shouldRegisterNewOrderWithValidBody() {
-        when(ordersRepository.save(any())).thenReturn(OrderFactory.createOrder());
-        when(orderPaymentInfoRepository.save(any())).thenReturn(PaymentInfoFactory.createPaymentInfoWithCreditCard());
-        when(priceInfoRepository.save(any())).thenReturn(PriceInfoFactory.createPriceInfo());
-        when(orderProductsRepository.saveAll(any())).thenReturn(ProductsFactory.createOrderProducts());
-        when(orderAddressRepository.save(any())).thenReturn(AddressFactory.createAddress());
+        when(ordersRepository.save(any())).thenReturn(OrderFactoryTest.createOrder());
+        when(priceInfoRepository.save(any())).thenReturn(PriceInfoFactoryTest.createPriceInfo());
+        when(orderProductsRepository.saveAll(any())).thenReturn(ProductsFactoryTest.createOrderProducts());
+        when(orderAddressRepository.save(any())).thenReturn(AddressFactoryTest.createAddress());
 
         createOrderUseCase.execute(createOrderPayload());
 
         verify(ordersRepository, times(1)).save(any());
-        verify(orderPaymentInfoRepository, times(1)).save(any());
         verify(priceInfoRepository, times(1)).save(any());
         verify(orderProductsRepository, times(1)).saveAll(any());
         verify(orderAddressRepository, times(1)).save(any());
@@ -50,22 +49,11 @@ public class CreateOrderUseCaseTest {
     public CreateOrderUseCaseRequestDTO createOrderPayload() {
 
         return CreateOrderUseCaseRequestDTO.builder()
-                .addressInfo(AddressFactory.createAddressPayload())
-                .order(OrderFactory.createOrderPayload())
-                .paymentInfo(PaymentInfoFactory.createPaymentInfoWithCreditCardPayload())
-                .priceInfo(PriceInfoFactory.createPriceInfoPayload())
-                .products(ProductsFactory.createOrderProductsPayload())
-                .build();
-    }
-
-    public CreateOrderUseCaseRequestDTO createOrderInvalidPayload() {
-
-        return CreateOrderUseCaseRequestDTO.builder()
-                .addressInfo(AddressFactory.createAddressPayload())
-                .order(OrderFactory.createOrderPayload())
-                .paymentInfo(PaymentInfoFactory.createPaymentInfoForCreditCardWithCardInfoEmpty())
-                .priceInfo(PriceInfoFactory.createPriceInfoPayload())
-                .products(ProductsFactory.createOrderProductsPayload())
+                .addressInfo(AddressFactoryTest.createAddressPayload())
+                .order(OrderFactoryTest.createOrderPayload())
+                .paymentInfo(PaymentInfoFactoryTest.createPaymentInfoWithCreditCardPayload())
+                .priceInfo(PriceInfoFactoryTest.createPriceInfoPayload())
+                .products(ProductsFactoryTest.createOrderProductsPayload())
                 .build();
     }
 }

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class OrderFactory {
+public class OrderFactoryTest {
 
     public static Orders createOrder() {
         return Orders.builder()

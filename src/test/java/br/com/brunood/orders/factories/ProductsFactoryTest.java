@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductsFactory {
+public class ProductsFactoryTest {
 
     public static List<OrderProducts> createOrderProducts() {
         List<OrderProducts> products = new ArrayList<>();

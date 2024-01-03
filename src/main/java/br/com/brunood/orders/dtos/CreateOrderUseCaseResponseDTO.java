@@ -13,7 +13,6 @@ import java.util.List;
 public class CreateOrderUseCaseResponseDTO {
 
     OrderAddress address;
-    OrderPaymentInfo paymentInfo;
     List<OrderProducts> products;
     Orders order;
     PriceInfo priceInfo;

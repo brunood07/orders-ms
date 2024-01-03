@@ -7,3 +7,7 @@ spring:
     port: 5672
     username: 'ecomm-user'
     password: 'start-password'
+
+rest:
+  client:
+    payments:

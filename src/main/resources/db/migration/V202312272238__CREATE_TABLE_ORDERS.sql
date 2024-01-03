@@ -54,17 +54,3 @@ create table ecomm_orders.tb_order_address(
 alter table ecomm_orders.tb_order_address owner to admin;
 grant all on table ecomm_orders.tb_order_address to admin;
 grant select,insert,update,delete on table ecomm_orders.tb_order_address to admin;
-
-create table ecomm_orders.tb_order_payment_info(
-    id_order_payment_info serial primary key,
-    order_id bigint not null,
-    id_payment bigint,
-    payment_type varchar(10),
-    payment_status varchar(20) default 'pending',
-    installments integer,
-    client_document varchar(20) not null
-);
-
-alter table ecomm_orders.tb_order_payment_info owner to admin;
-grant all on table ecomm_orders.tb_order_payment_info to admin;
-grant select,insert,update,delete on table ecomm_orders.tb_order_payment_info to admin;

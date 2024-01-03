@@ -1,5 +1,6 @@
 package br.com.brunood.orders.dtos;
 
+import br.com.brunood.orders.dtos.payments.PaymentsDTO;
 import br.com.brunood.orders.entities.*;
 import lombok.*;
 
@@ -13,8 +14,8 @@ import java.util.List;
 public class GetOrderByOrderIdUseCaseDTO {
 
     OrderAddress address;
-    OrderPaymentInfo paymentInfo;
     List<OrderProducts> products;
     Orders order;
+    PaymentsDTO payment;
     PriceInfo priceInfo;
 }

@@ -2,25 +2,16 @@ package br.com.brunood.orders.factories;
 
 import br.com.brunood.orders.dtos.CreateOrderPaymentInfoDTO;
 import br.com.brunood.orders.dtos.CreditCardDTO;
-import br.com.brunood.orders.entities.OrderPaymentInfo;
+import br.com.brunood.orders.dtos.payments.PaymentsDTO;
 import br.com.brunood.orders.enums.PaymentStatus;
 import br.com.brunood.orders.enums.PaymentType;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 @Service
-public class PaymentInfoFactory {
-
-    public static OrderPaymentInfo createPaymentInfoWithCreditCard() {
-
-        return OrderPaymentInfo.builder()
-                .clientDocument("11111111111")
-                .idOrderPaymentInfo(1L)
-                .idPayment(1L)
-                .installments(1)
-                .paymentStatus(PaymentStatus.PENDING.getValue())
-                .paymentType(PaymentType.CREDIT_CARD.getValue())
-                .build();
-    }
+public class PaymentInfoFactoryTest {
 
     public static CreateOrderPaymentInfoDTO createPaymentInfoWithCreditCardPayload() {
         var cardInfo = CreditCardDTO.builder()
@@ -44,6 +35,22 @@ public class PaymentInfoFactory {
                 .clientDocument("11111111111")
                 .installments(1)
                 .paymentType(PaymentType.CREDIT_CARD.getValue())
+                .build();
+    }
+
+    public static PaymentsDTO createPaymentDto() {
+
+        return PaymentsDTO.builder()
+                .clientDocument("11111111111")
+                .createdAt(LocalDateTime.now())
+                .description("Teste")
+                .installments(1)
+                .orderId(1L)
+                .paymentId(1L)
+                .paymentStatus(PaymentStatus.PROCESSING.getValue())
+                .paymentType(PaymentType.CREDIT_CARD.getValue())
+                .value(BigDecimal.TEN)
+                .updatedAt(LocalDateTime.now())
                 .build();
     }
 }

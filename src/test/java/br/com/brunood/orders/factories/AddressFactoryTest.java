@@ -5,7 +5,7 @@ import br.com.brunood.orders.entities.OrderAddress;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressFactory {
+public class AddressFactoryTest {
 
     public static OrderAddress createAddress() {
 

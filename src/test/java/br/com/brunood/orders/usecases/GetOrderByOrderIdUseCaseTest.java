@@ -2,6 +2,7 @@ package br.com.brunood.orders.usecases;
 
 import br.com.brunood.orders.factories.*;
 import br.com.brunood.orders.repositories.*;
+import br.com.brunood.orders.usecases.clients.PaymentsMsClient;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,7 +21,7 @@ public class GetOrderByOrderIdUseCaseTest {
     @Mock
     OrdersRepository ordersRepository;
     @Mock
-    OrderPaymentInfoRepository orderPaymentInfoRepository;
+    PaymentsMsClient paymentsMsClient;
     @Mock
     PriceInfoRepository priceInfoRepository;
     @Mock
@@ -42,16 +43,16 @@ public class GetOrderByOrderIdUseCaseTest {
 
     @Test
     void shouldReturnOrderForOrderId() {
-        when(ordersRepository.findById(anyLong())).thenReturn(Optional.of(OrderFactory.createOrder()));
-        when(orderPaymentInfoRepository.findByOrderId(anyLong())).thenReturn(Optional.of(PaymentInfoFactory.createPaymentInfoWithCreditCard()));
-        when(priceInfoRepository.findByOrderId(anyLong())).thenReturn(Optional.of(PriceInfoFactory.createPriceInfo()));
-        when(orderProductsRepository.findByOrderId(anyLong())).thenReturn(ProductsFactory.createOrderProducts());
-        when(orderAddressRepository.findByOrderId(anyLong())).thenReturn(Optional.of(AddressFactory.createAddress()));
+        when(ordersRepository.findById(anyLong())).thenReturn(Optional.of(OrderFactoryTest.createOrder()));
+        when(paymentsMsClient.getPaymentByOrderId(anyString())).thenReturn(PaymentInfoFactoryTest.createPaymentDto());
+        when(priceInfoRepository.findByOrderId(anyLong())).thenReturn(Optional.of(PriceInfoFactoryTest.createPriceInfo()));
+        when(orderProductsRepository.findByOrderId(anyLong())).thenReturn(ProductsFactoryTest.createOrderProducts());
+        when(orderAddressRepository.findByOrderId(anyLong())).thenReturn(Optional.of(AddressFactoryTest.createAddress()));
 
         var order = getOrderByOrderIdUseCase.execute(1L);
 
         verify(ordersRepository, times(1)).findById(anyLong());
-        verify(orderPaymentInfoRepository, times(1)).findByOrderId(anyLong());
+        verify(paymentsMsClient, times(1)).getPaymentByOrderId(anyString());
         verify(priceInfoRepository, times(1)).findByOrderId(anyLong());
         verify(orderProductsRepository, times(1)).findByOrderId(anyLong());
         verify(orderAddressRepository, times(1)).findByOrderId(anyLong());
