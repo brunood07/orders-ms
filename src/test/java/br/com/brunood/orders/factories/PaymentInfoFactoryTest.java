@@ -38,6 +38,14 @@ public class PaymentInfoFactoryTest {
                 .build();
     }
 
+    public static CreateOrderPaymentInfoDTO createPaymentInfoWithPix() {
+        return CreateOrderPaymentInfoDTO.builder()
+                .cardInfo(null)
+                .clientDocument("11111111111")
+                .installments(1)
+                .paymentType(PaymentType.PIX.getValue())
+                .build();
+    }
     public static PaymentsDTO createPaymentDto() {
 
         return PaymentsDTO.builder()

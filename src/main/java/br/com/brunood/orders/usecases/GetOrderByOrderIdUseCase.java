@@ -1,6 +1,7 @@
 package br.com.brunood.orders.usecases;
 
 import br.com.brunood.orders.dtos.GetOrderByOrderIdUseCaseDTO;
+import br.com.brunood.orders.exceptions.OrderNotFoundException;
 import br.com.brunood.orders.repositories.*;
 import br.com.brunood.orders.usecases.clients.PaymentsMsClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,7 @@ public class GetOrderByOrderIdUseCase {
     private PaymentsMsClient paymentsMsClient;
 
     public GetOrderByOrderIdUseCaseDTO execute(Long orderId) {
-
-        var order = this.ordersRepository.findById(orderId).orElse(null);
-
-        if (order == null) return null;
+        var order = this.ordersRepository.findById(orderId).orElseThrow(OrderNotFoundException::new);
 
         var address = this.orderAddressRepository.findByOrderId(orderId).orElse(null);
         var priceInfo = this.priceInfoRepository.findByOrderId(orderId).orElse(null);

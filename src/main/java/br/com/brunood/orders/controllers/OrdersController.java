@@ -47,12 +47,8 @@ public class OrdersController {
 
     @GetMapping("/client/{clientId}")
     public ResponseEntity<Object> findOrdersByClientId(@PathVariable(name = "clientId") Long clientId) {
-        try {
-            var orders = this.findOrdersByClientIdUseCase.execute(clientId);
+        var orders = this.findOrdersByClientIdUseCase.execute(clientId);
 
-            return ResponseEntity.ok().body(orders);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        return ResponseEntity.ok().body(orders);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.brunood.orders.usecases;
 
+import br.com.brunood.orders.exceptions.OrderNotFoundException;
 import br.com.brunood.orders.factories.*;
 import br.com.brunood.orders.repositories.*;
 import br.com.brunood.orders.usecases.clients.PaymentsMsClient;
@@ -10,8 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -35,10 +35,9 @@ public class GetOrderByOrderIdUseCaseTest {
     void shouldReturnNullIfOrderDontExists() {
         when(ordersRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-        var order = getOrderByOrderIdUseCase.execute(1L);
+        assertThrows(OrderNotFoundException.class, () -> getOrderByOrderIdUseCase.execute(1L));
 
         verify(ordersRepository, times(1)).findById(anyLong());
-        assertNull(order);
     }
 
     @Test
