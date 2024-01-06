@@ -2,6 +2,7 @@ package br.com.brunood.orders.factories;
 
 import br.com.brunood.orders.dtos.CreateOrderAddressDTO;
 import br.com.brunood.orders.entities.OrderAddress;
+import br.com.brunood.orders.enums.ShippingStatus;
 
 public class AddressFactory {
 
@@ -16,6 +17,7 @@ public class AddressFactory {
                 .postalCode(data.getPostalCode())
                 .state(data.getState())
                 .street(data.getStreet())
+                .status(ShippingStatus.PENDING.getValue())
                 .build();
     }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE  ecomm_orders.tb_order_address ADD COLUMN IF NOT EXISTS status varchar(20) null;

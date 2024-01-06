@@ -32,6 +32,8 @@ public class OrderAddress {
 
     private String complement;
 
+    private String status;
+
     @Column(name = "postal_code")
     private String postalCode;
 
