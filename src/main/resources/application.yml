@@ -2,14 +2,14 @@ spring:
   application:
     name: 'orders-ms'
   rabbitmq:
-    host: localhost
+    host: 172.27.0.5
     port: 5672
     username: 'ecomm-user'
     password: 'start-password'
   flyway:
     enabled: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/orders-db?user=admin&password=admin&createDatabaseIfNotExist=true
+    url: jdbc:postgresql://order-postgres/orders-db?user=admin&password=admin&createDatabaseIfNotExist=true
   jpa:
     properties:
       hibernate:
