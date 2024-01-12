@@ -2,7 +2,7 @@ spring:
   application:
     name: 'orders-ms'
   rabbitmq:
-    host: 172.27.0.5
+    host: rabbitmq
     port: 5672
     username: 'ecomm-user'
     password: 'start-password'
