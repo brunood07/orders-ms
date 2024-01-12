@@ -28,4 +28,4 @@ server:
 
 rest:
   client:
-    payments: http://localhost:8081
+    payments: http://payment:8081
